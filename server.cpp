@@ -6,7 +6,7 @@
 /*   By: 42 <42@student.42nice.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 08:47:31 by asebrech          #+#    #+#             */
-/*   Updated: 2022/05/04 10:23:48 by asebrech         ###   ########.fr       */
+/*   Updated: 2022/05/04 11:27:07 by asebrech         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,20 @@ int	main (int ac, char **av)
         * returns a new file descriptor referring to that socket.
 	*/
 
-	int	new_socket = 0;
 	int	addrlen = sizeof(address);
-	try
+	int	new_socket = 0;
+	while (true)
 	{
-		if ((new_socket = accept(sockfd, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0)
-			throw	std::runtime_error("accept failed");
+		try
+		{
+			if ((new_socket = accept(sockfd, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0)
+				throw	std::runtime_error("accept failed");
+		}
+		catch (std::exception & e) {std::cout << e.what() << std::endl;}
+
+		char	buffer[1024];
+		read(new_socket, buffer, 1024);
+		std::cout << buffer << std::endl;
 	}
-	catch (std::exception & e) {std::cout << e.what() << std::endl;}
-
-	char	buffer[1024];
-	read(new_socket, buffer, 1024);
-	std::cout << buffer << std::endl;
-
 	return (0);
 }

@@ -1,10 +1,11 @@
 NAME = ircserv
-SRCS =	
+SRCS = server.cpp
 CLFAGS = -Wall -Wextra -Werror -std=c++98
 OBJS = $(SRCS:.cpp=.o)
 
 $(NAME): $(OBJS)
 	c++ $(CFLAGS) $(OBJS) -o $(NAME)
+	gcc client.c -o client
 
 %.o: %.cpp
 	c++ -o $@ -c $< $(CFLAGS)
@@ -16,6 +17,7 @@ clean:
 
 fclean:
 	@rm -rf *.o $(NAME)
+	@rm -rf client
 
 re: fclean all
 
