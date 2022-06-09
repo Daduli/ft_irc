@@ -1,11 +1,21 @@
 NAME = ircserv
-SRCS = server.cpp
-CLFAGS = -Wall -Wextra -Werror -std=c++98
+SRCS =	srcs/main.cpp \
+		srcs/utils.cpp \
+		srcs/create_server.cpp \
+		srcs/run_server.cpp \
+		srcs/cmds/pass_command.cpp \
+		srcs/cmds/user_command.cpp \
+		srcs/cmds/nick_command.cpp \
+		srcs/cmds/send_error.cpp \
+		srcs/classes/Server.cpp \
+		srcs/classes/Client.cpp \
+		srcs/classes/Parser.cpp
+
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 OBJS = $(SRCS:.cpp=.o)
 
 $(NAME): $(OBJS)
 	c++ $(CFLAGS) $(OBJS) -o $(NAME)
-	gcc client.c -o client
 
 %.o: %.cpp
 	c++ -o $@ -c $< $(CFLAGS)
@@ -13,11 +23,10 @@ $(NAME): $(OBJS)
 all: $(NAME)
 
 clean:
-	@rm -rf *.o
+	@rm -rf */*.o */*/*.o
 
 fclean:
-	@rm -rf *.o $(NAME)
-	@rm -rf client
+	@rm -rf */*.o */*/*.o $(NAME)
 
 re: fclean all
 
