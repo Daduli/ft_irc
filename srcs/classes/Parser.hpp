@@ -50,9 +50,12 @@ std::vector<std::string>	ft_split (std::string str, std::string delimiter);
 void	ft_error(std::string s);
 
 void	send_error(std::string code, std::string nickname, std::string toSend, int clientFd);
+void	send_msg(int clientFd, std::string msg);
 void	pass_command(std::vector<std::string> cmd, int clientFd, Server *server);
 void	user_command(std::vector<std::string> cmd, int clientFd, Server *server);
 void	nick_command(std::vector<std::string> cmd, int clientFd, Server *server);
+void	ping_command(std::vector<std::string> cmd, int clientFd, Server *server);
+void	join_command(std::vector<std::string> cmd, int clientFd, Server *server);
 
 //      (:<préfixe>) <commande> (<paramètres>) <crnl>
 //	Exemples:

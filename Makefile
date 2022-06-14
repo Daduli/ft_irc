@@ -6,6 +6,7 @@ SRCS =	srcs/main.cpp \
 		srcs/cmds/pass_command.cpp \
 		srcs/cmds/user_command.cpp \
 		srcs/cmds/nick_command.cpp \
+		srcs/cmds/ping_command.cpp \
 		srcs/cmds/send_error.cpp \
 		srcs/classes/Server.cpp \
 		srcs/classes/Client.cpp \

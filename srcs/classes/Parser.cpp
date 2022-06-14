@@ -42,14 +42,25 @@ void	Parser::parseCommand(std::string message, int clientFd, Server *server)
 	}
 	if (cmdArray[0][0] == ':')
 	{
+		if (cmdArray.size() == 1)
+			cmdArray[0].pop_back();
 		if (cmdArray[0].length() == 1)
-			std::cout << "Error: bad prefix format" << std::endl;
+		{
+			send(clientFd, "Bad prefix format\r\n", strlen("Bad prefix format\r\n"), 0);
+			return;
+		}
 		else
 		{
 			if (!server->client[clientFd]->_isConnected)
-				std::cout << "Error: not connected to server" << std::endl;
+			{
+				send(clientFd, "Not connected to server\r\n", strlen("Not connected to server\r\n"), 0);
+				return;
+			}
 			else if (cmdArray[0].substr(1, cmdArray[0].length()) != server->client[clientFd]->getNickname())
-				std::cout << "Error: invalid nickname" << std::endl; //test this when connection to server is finished
+			{
+				send(clientFd, "Error: invalid nickname\r\n", strlen("Error: invalid nickname\r\n"), 0);
+				return;
+			}
 		}
 		cmdArray.erase(cmdArray.begin());
 	}
@@ -61,7 +72,6 @@ void	Parser::parseCommand(std::string message, int clientFd, Server *server)
 
 void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *server)
 {
-
 	//std::cout << _command << std::endl;
 	if (_command == "PASS")
 		pass_command(cmd, clientFd, server);
@@ -69,8 +79,10 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		nick_command(cmd, clientFd, server);
 	else if (_command == "USER")
 		user_command(cmd, clientFd, server);
-	//else if (_command == "JOIN")
-	//	join_command(cmd, client);
+	else if (_command == "PING")
+		ping_command(cmd, clientFd, server);
+	else if (_command == "JOIN")
+		join_command(cmd, clientFd, server);
 	//else if (_command == "PART")
 	//	nick_command(cmd, client);
 	//else if (_command == "PRIVMSG")
@@ -87,6 +99,6 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 	//	invite_command(cmd, client);
 	//else if (_command == "TOPIC")
 	//	topic_command(cmd, client);
-	else
-		send_error("421", server->client[clientFd]->getNickname(), "Unknown command.", clientFd);
+	//else
+	//	send_error("421", server->client[clientFd]->getNickname(), "Unknown command.", clientFd);
 }

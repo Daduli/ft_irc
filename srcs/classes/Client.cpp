@@ -32,6 +32,11 @@ void	Client::setNickname(std::string const &nickname)
 	_nickname = nickname;
 }
 
+std::string	const &Client::getUsername(void) const
+{
+	return _username;
+}
+
 void	Client::setUsername(std::string const &username)
 {
 	_username = username;

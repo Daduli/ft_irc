@@ -41,25 +41,34 @@ void	nick_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		return;
 	}
 	nickname_parse(cmd, clientFd, server);
+	std::string msg;
 	if (server->client[clientFd]->_isConnected)
 	{
 		if (cmd.size() == 1)
-			std::cout<< "Nickname: " << server->client[clientFd]->getNickname() <<std::endl;
+		{	
+			msg = "Nickname: " + server->client[clientFd]->getNickname() + "\r\n";
+			send(clientFd, msg.c_str(), msg.length(), 0);
+		}
 		else
-			server->client[clientFd]->setNickname(cmd[1]);
+			{
+				msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "127.0.0.1 NICK :" + cmd[1] + "\r\n";
+				std::cout << msg << std::endl;
+				send(clientFd, msg.c_str(), msg.length(), 0);
+				server->client[clientFd]->setNickname(cmd[1]);
+			}
 	}
 	else
 	{
 		if (cmd.size() == 1)
 		{
-			std::cout << "Error: No nick name given" << std::endl;
+			send_error("431", server->client[clientFd]->getNickname(), "No nickname given", clientFd);
 			return;
 		}
 		server->client[clientFd]->setNickname(cmd[1]);
 		server->client[clientFd]->_nicknameOk = 1;
 	}
 	if (server->client[clientFd]->_passwordOk && server->client[clientFd]->_nicknameOk && server->client[clientFd]->_usernameOk && !server->client[clientFd]->_isConnected)
-	{	
+	{
 		server->client[clientFd]->_isConnected = true;
 		send_error("001", server->client[clientFd]->getNickname(), "Welcome to PokeIRC!", clientFd);
 	}

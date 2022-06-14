@@ -22,6 +22,7 @@ class Client
 		void	setMessage(std::string const &message);
 		std::string const &getNickname(void) const;
 		void	setNickname(std::string const &nickname);
+		std::string	const &getUsername(void) const;
 		void	setUsername(std::string const &username);
 
 		bool	_isConnected;
