@@ -7,3 +7,19 @@ void	send_error(std::string code, std::string nickname, std::string toSend, int 
 	message = ":PokeIRC " + code + " " + nickname + " :" + toSend + "\r\n";
 	send(clientFd, message.c_str(), message.length(), 0);
 }
+
+void	send_error_1(std::string code, std::string nickname, std::string toSend, int clientFd, std::string arg)
+{
+	std::string	message;
+
+	message = ":PokeIRC " + code + " " + nickname + " " + arg + " :" + toSend + "\r\n";
+	send(clientFd, message.c_str(), message.length(), 0);
+}
+
+void	sendMode(std::string code, std::string nickname, int clientFd, std::string arg)
+{
+	std::string	message;
+
+	message = ":PokeIRC " + code + " " + nickname + " +" + arg + "\r\n";
+	send(clientFd, message.c_str(), message.length(), 0);
+}

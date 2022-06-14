@@ -34,6 +34,8 @@ class Server
 	void	setPassword(std::string password);
 	std::string const &getPassword(void) const;
 	void	getConfig(std::string param);
+	std::string	const &getOperatorPass() const;
+	std::string	const &getAdmin() const;
 
 	void	deleteClient(void);
 	void	serverAccept(void);
@@ -50,6 +52,7 @@ class Server
 		std::vector<int>	clientFds;
 		Parser	_parse;
 		std::string	_password;
+		std::string	_admin;
 		std::string	_msgSave;
 		std::string	_operatorPwd;
 

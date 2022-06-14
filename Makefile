@@ -7,10 +7,12 @@ SRCS =	srcs/main.cpp \
 		srcs/cmds/user_command.cpp \
 		srcs/cmds/nick_command.cpp \
 		srcs/cmds/ping_command.cpp \
+		srcs/cmds/mode_command.cpp \
+		srcs/cmds/oper_command.cpp \
 		srcs/cmds/send_error.cpp \
 		srcs/classes/Server.cpp \
 		srcs/classes/Client.cpp \
-		srcs/classes/Parser.cpp
+		srcs/classes/Parser.cpp \
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 OBJS = $(SRCS:.cpp=.o)

@@ -1,36 +1,45 @@
 #include "../../ft_irc.hpp"
 
-void	nickname_parse(std::vector<std::string> cmd, int clientFd, Server *server)
+bool	nickname_parse(std::vector<std::string> cmd, int clientFd, Server *server)
 {
 	if (cmd.size() == 2)
 	{
 		if (!isalpha(cmd[1][0]))
-			send_error("432", server->client[clientFd]->getNickname(), "Erroneus nickname.", clientFd);
+		{
+			send_error_1("432", server->client[clientFd]->getNickname(), "Erroneous Nickname", clientFd, cmd[1]);
+			return false;
+		}
 		for (std::string::iterator it=cmd[1].begin(); it!=cmd[1].end(); it++)
 		{
 			if (!isalnum(*it) && *it != '_' && *it != '-')
 			{
-				send_error("432", server->client[clientFd]->getNickname(), "Erroneus nickname.", clientFd);
-				return;
+				send_error_1("432", server->client[clientFd]->getNickname(), "Erroneous Nickname", clientFd, cmd[1]);
+				return false;
 			}
 		}
 		if (cmd[1].length() > 30)
 		{
-			send_error("432", server->client[clientFd]->getNickname(), "Erroneus nickname.", clientFd);
-			return;
+			send_error_1("432", server->client[clientFd]->getNickname(), "Erroneous Nickname", clientFd, cmd[1]);
+			return false;
 		}
 		for (std::vector<std::string>::iterator it = server->_nicknameList.begin(); it != server->_nicknameList.end(); it++)
 		{
 			if (*it == cmd[1])
 			{
 				if (server->client[clientFd]->_isConnected)
+				{
 					send_error("433", server->client[clientFd]->getNickname(), "Nickname already used.", clientFd);
+					return false;
+				}
 				else
+				{
 					send_error("436", server->client[clientFd]->getNickname(), "Nickname collision.", clientFd);
-				return;
+					return false;
+				}
 			}
 		}
 	}
+	return true;
 }
 
 void	nick_command(std::vector<std::string> cmd, int clientFd, Server *server)
@@ -40,7 +49,8 @@ void	nick_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		send(clientFd, "You must enter the password first.\r\n", strlen("You must enter the password first.\r\n"), 0);
 		return;
 	}
-	nickname_parse(cmd, clientFd, server);
+	if (!nickname_parse(cmd, clientFd, server))
+		return;
 	std::string msg;
 	if (server->client[clientFd]->_isConnected)
 	{

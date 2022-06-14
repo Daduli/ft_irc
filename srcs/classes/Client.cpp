@@ -41,3 +41,10 @@ void	Client::setUsername(std::string const &username)
 {
 	_username = username;
 }
+
+std::string	const &Client::getMode() const {return _mode;}
+
+void	Client::setMode(std::string const &mode)
+{
+	_mode = mode;
+}

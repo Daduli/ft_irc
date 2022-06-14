@@ -81,8 +81,10 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		user_command(cmd, clientFd, server);
 	else if (_command == "PING")
 		ping_command(cmd, clientFd, server);
-	else if (_command == "JOIN")
-		join_command(cmd, clientFd, server);
+	else if (_command == "OPER")
+		oper_command(cmd, clientFd, server);
+	//else if (_command == "JOIN")
+	//	join_command(cmd, clientFd, server);
 	//else if (_command == "PART")
 	//	nick_command(cmd, client);
 	//else if (_command == "PRIVMSG")
@@ -93,8 +95,8 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 	//	quit_command(cmd, client);
 	//else if (_command == "KICK")
 	//	kick_command(cmd, client);
-	//else if (_command == "MODE")
-	//	mode_command(cmd, client);
+	else if (_command == "MODE")
+		mode_command(cmd, clientFd, server);
 	//else if (_command == "INVITE")
 	//	invite_command(cmd, client);
 	//else if (_command == "TOPIC")

@@ -5,6 +5,7 @@
 
 Server::Server(void)
 {
+	_admin = "admin";
 	return;
 }
 
@@ -23,6 +24,13 @@ std::string const &Server::getPassword(void) const
 	return (_password);
 }
 
+std::string const &Server::getAdmin(void) const
+{
+	return (_admin);
+}
+
+std::string const &Server::getOperatorPass() const {return _operatorPwd;}
+
 // lire le ircserv.config && recuperer ligne par ligne et stocker 'op_pass'(stocker dans une string)
 void	Server::getConfig(std::string param) 
 {
@@ -39,6 +47,7 @@ void	Server::getConfig(std::string param)
 	}
 	pos = temp.find("=");
 	_operatorPwd = temp.substr(pos + 2, temp.length());
+
 }
 
 void	Server::deleteClient(void)
