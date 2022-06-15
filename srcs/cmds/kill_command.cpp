@@ -33,4 +33,5 @@ void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server) {
             send_error_1("401", server->client[clientFd]->getNickname(), "No such nick/channel", clientFd, cmd[1]);
             return;
     }
+    server->clientDisconnect(client_target->getFd());
 }
