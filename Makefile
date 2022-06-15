@@ -9,6 +9,7 @@ SRCS =	srcs/main.cpp \
 		srcs/cmds/ping_command.cpp \
 		srcs/cmds/mode_command.cpp \
 		srcs/cmds/oper_command.cpp \
+		srcs/cmds/kill_command.cpp \
 		srcs/cmds/send_error.cpp \
 		srcs/classes/Server.cpp \
 		srcs/classes/Client.cpp \
