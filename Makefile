@@ -10,6 +10,7 @@ SRCS =	srcs/main.cpp \
 		srcs/cmds/mode_command.cpp \
 		srcs/cmds/oper_command.cpp \
 		srcs/cmds/kill_command.cpp \
+		srcs/cmds/quit_command.cpp \
 		srcs/cmds/join_command.cpp \
 		srcs/cmds/privmsg_command.cpp \
 		srcs/cmds/send_error.cpp \

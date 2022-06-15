@@ -16,7 +16,7 @@ Client  *getClientBynick(Server *server, std::string name)
 void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server) {
 
     Client *client_target = NULL;
-
+    
     if (cmd.size() != 3)
 	{
         send_error_1("461", server->client[clientFd]->getNickname(), "Not enough parameters", clientFd, cmd[0]);
@@ -33,5 +33,7 @@ void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server) {
             send_error_1("401", server->client[clientFd]->getNickname(), "No such nick/channel", clientFd, cmd[1]);
             return;
     }
+    
+    std::cout << cmd[2] << std::endl;
     server->clientDisconnect(client_target->getFd());
 }
