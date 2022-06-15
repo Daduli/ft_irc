@@ -2,7 +2,6 @@
 
 void	ping_command(std::vector<std::string> cmd, int clientFd, Server *server)
 {
-
 	if (cmd.size() < 2)
 	{
 		send_error("409", server->client[clientFd]->getNickname(), "No origin specified", clientFd);

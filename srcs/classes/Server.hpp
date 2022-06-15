@@ -17,6 +17,7 @@
 #include <map>
 #include <utility>
 #include "Parser.hpp"
+#include "Channel.hpp"
 
 /*==========================*/
 /*=======    CLASS    ======*/
@@ -44,8 +45,8 @@ class Server
 
 	int	socketFd;
 	std::map<int, Client *>	client;
-	std::vector<std::string> _nicknameList;
-
+	std::vector<std::string> nicknameList;
+	std::map<std::string, Channel *> channelList;
 
 	private:
 

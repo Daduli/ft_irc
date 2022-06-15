@@ -76,6 +76,7 @@ void	Server::serverAccept(void)
 	newSock = accept(socketFd, (struct sockaddr*)&address, &addr_len);
 	fcntl(newSock, F_SETFL, O_NONBLOCK);
 	client.insert(std::pair<int, Client *>(newSock, user));
+	client[newSock]->setFd(newSock);
 }
 
 

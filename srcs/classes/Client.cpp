@@ -4,12 +4,23 @@ Client::Client(void)
 {
 	_isConnected = false;
 	_passwordOk = false;
+	_channelNb = 0;
 	return;
 }
 
 Client::~Client(void)
 {
 	return;
+}
+
+int const &Client::getFd(void) const
+{
+	return _fd;
+}
+		
+void	Client::setFd(int const &fd)
+{
+	_fd = fd;
 }
 
 std::string &Client::getMessage(void)
@@ -47,4 +58,17 @@ std::string	const &Client::getMode() const {return _mode;}
 void	Client::setMode(std::string const &mode)
 {
 	_mode = mode;
+}
+
+int	const &Client::getChannelNb(void) const
+{
+	return _channelNb;
+}
+
+void	Client::setChannelNb(int const &nb)
+{
+	if (nb > 0)
+		_channelNb++;
+	else
+		_channelNb--;
 }

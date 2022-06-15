@@ -101,6 +101,15 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 	//	invite_command(cmd, client);
 	//else if (_command == "TOPIC")
 	//	topic_command(cmd, client);
+	//	part_command(cmd, client);
+	else if (_command == "PRIVMSG")
+		privmsg_command(cmd, clientFd, server);
+	//else if (_command == "KILL")
+	//	kill_command(cmd, client);
+	//else if (_command == "QUIT")
+	//	quit_command(cmd, client);
+	//else if (_command == "MODE") // deja fait 
+	//	mode_command(cmd, client); // deja fait  
 	//else
 	//	send_error("421", server->client[clientFd]->getNickname(), "Unknown command.", clientFd);
 }

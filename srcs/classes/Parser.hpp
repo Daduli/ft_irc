@@ -60,7 +60,8 @@ void	ping_command(std::vector<std::string> cmd, int clientFd, Server *server);
 void	oper_command(std::vector<std::string> cmd, int clientFd, Server *server);
 void 	mode_command(std::vector<std::string> cmd, int clientFd, Server *server);
 void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server);
-//void	join_command(std::vector<std::string> cmd, int clientFd, Server *server);
+void	join_command(std::vector<std::string> cmd, int clientFd, Server *server);
+void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server);
 
 //      (:<préfixe>) <commande> (<paramètres>) <crnl>
 //	Exemples:
