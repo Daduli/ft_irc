@@ -19,6 +19,8 @@ class Client
 		Client(void);
 		~Client(void);
 
+		int const &getFd(void) const;
+		void	setFd(int const &fd);
 		std::string &getMessage(void);
 		void	setMessage(std::string const &message);
 		std::string const &getNickname(void) const;

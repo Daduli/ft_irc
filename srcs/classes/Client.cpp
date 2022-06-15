@@ -13,6 +13,16 @@ Client::~Client(void)
 	return;
 }
 
+int const &Client::getFd(void) const
+{
+	return _fd;
+}
+		
+void	Client::setFd(int const &fd)
+{
+	_fd = fd;
+}
+
 std::string &Client::getMessage(void)
 {
 	return this->_message;

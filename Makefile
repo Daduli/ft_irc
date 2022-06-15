@@ -8,6 +8,7 @@ SRCS =	srcs/main.cpp \
 		srcs/cmds/nick_command.cpp \
 		srcs/cmds/ping_command.cpp \
 		srcs/cmds/join_command.cpp \
+		srcs/cmds/privmsg_command.cpp \
 		srcs/cmds/send_error.cpp \
 		srcs/classes/Server.cpp \
 		srcs/classes/Client.cpp \

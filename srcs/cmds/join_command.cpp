@@ -35,8 +35,6 @@ void	join_command(std::vector<std::string> cmd, int clientFd, Server *server)
 			{
 				server->client[clientFd]->setChannelNb(1);
 				server->channelList[*it]->clients.push_back(clientFd);
-				for (std::vector<int>::iterator itt = server->channelList[*it]->clients.begin(); itt != server->channelList[*it]->clients.end(); itt++)
-					std::cout << "ID: " << *itt << std::endl;
 			}
 		}
 	}

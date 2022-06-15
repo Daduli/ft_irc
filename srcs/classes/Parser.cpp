@@ -85,8 +85,8 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		join_command(cmd, clientFd, server);
 	//else if (_command == "PART")
 	//	part_command(cmd, client);
-	//else if (_command == "PRIVMSG")
-	//	privmsg_command(cmd, clientFd, server);
+	else if (_command == "PRIVMSG")
+		privmsg_command(cmd, clientFd, server);
 	//else if (_command == "KILL")
 	//	kill_command(cmd, client);
 	//else if (_command == "QUIT")
