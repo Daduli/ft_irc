@@ -14,6 +14,7 @@
 #include <string>
 #include <cctype>
 #include <vector>
+#include <algorithm>
 #include "srcs/classes/Server.hpp"
 #include "srcs/classes/Client.hpp"
 

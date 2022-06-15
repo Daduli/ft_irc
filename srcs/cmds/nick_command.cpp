@@ -19,7 +19,7 @@ void	nickname_parse(std::vector<std::string> cmd, int clientFd, Server *server)
 			send_error("432", server->client[clientFd]->getNickname(), "Erroneus nickname.", clientFd);
 			return;
 		}
-		for (std::vector<std::string>::iterator it = server->_nicknameList.begin(); it != server->_nicknameList.end(); it++)
+		for (std::vector<std::string>::iterator it = server->nicknameList.begin(); it != server->nicknameList.end(); it++)
 		{
 			if (*it == cmd[1])
 			{

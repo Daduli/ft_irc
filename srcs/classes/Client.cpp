@@ -4,6 +4,7 @@ Client::Client(void)
 {
 	_isConnected = false;
 	_passwordOk = false;
+	_channelNb = 0;
 	return;
 }
 
@@ -40,4 +41,17 @@ std::string	const &Client::getUsername(void) const
 void	Client::setUsername(std::string const &username)
 {
 	_username = username;
+}
+
+int	const &Client::getChannelNb(void) const
+{
+	return _channelNb;
+}
+
+void	Client::setChannelNb(int const &nb)
+{
+	if (nb > 0)
+		_channelNb++;
+	else
+		_channelNb--;
 }

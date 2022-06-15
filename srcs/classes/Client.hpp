@@ -6,6 +6,7 @@
 /*==========================*/
 
 #include <string>
+#include <vector>
 
 /*==========================*/
 /*=======    CLASS    ======*/
@@ -24,6 +25,8 @@ class Client
 		void	setNickname(std::string const &nickname);
 		std::string	const &getUsername(void) const;
 		void	setUsername(std::string const &username);
+		int	const &getChannelNb(void) const;
+		void	setChannelNb(int const &nb);
 
 		bool	_isConnected;
 		bool	_passwordOk;
@@ -32,9 +35,11 @@ class Client
 
 	private:
 
+		int			_fd;
 		std::string	_message;
 		std::string	_nickname;
 		std::string	_username;
+		int			_channelNb;
 
 };
 

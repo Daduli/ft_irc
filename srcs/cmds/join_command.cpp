@@ -1,62 +1,43 @@
 #include "../../ft_irc.hpp"
 
-/*===== channel existe pas =====*/
-
-//<< JOIN #ijfe
-//>> :tle!~tle@freenode-a99.759.j1faas.IP JOIN :#ijfe
-//>> :*.freenode.net 353 tle = #ijfe :@tle
-//>> :*.freenode.net 366 tle #ijfe :End of /NAMES list.
-//<< MODE #ijfe
-//>> :*.freenode.net 324 tle #ijfe :+nt
-//--> chanquery mode
-//<< WHO #ijfe
-//>> :*.freenode.net 329 tle #ijfe :1655124803
-//--> event 329
-//>> :*.freenode.net 352 tle #ijfe ~tle freenode-a99.759.j1faas.IP *.freenode.net tle H@s :0 Truyen danh Le
-//--> silent event who
-//>> :*.freenode.net 315 tle #ijfe :End of /WHO list.
-//--> chanquery who end
-//<< MODE #ijfe b
-//>> :*.freenode.net 368 tle #ijfe :End of channel ban list
-//--> chanquery ban end
-
-/*===== channel existe =====*/
-
-//<< JOIN #test
-//>> :*.freenode.net PONG *.freenode.net :*.freenode.net
-//--> lag pong
-//>> :tle!~tle@freenode-a99.759.j1faas.IP JOIN :#test
-//>> :*.freenode.net 353 tle = #test :antoine Daniel071 saxo08451 sc0tt2 bogon darkphoenix tle Ali3000623883101
-//>> :*.freenode.net 366 tle #test :End of /NAMES list.
-//<< MODE #test
-//>> :*.freenode.net 324 tle #test :+nt
-//--> chanquery mode
-//<< WHO #test
-//>> :*.freenode.net 329 tle #test :1650500288
-//--> event 329
-//>> :*.freenode.net 352 tle #test ~antoine freenode-nda.1d0.9166ff.IP *.freenode.net antoine Hs :0 Antoine
-//--> silent event who
-//>> :*.freenode.net 352 tle #test ~Daniel071 freenode-fr2.5kn.e4r3kt.IP *.freenode.net Daniel071 Gs :0 Daniel
-//--> silent event who
-//>> :*.freenode.net 352 tle #test ~saxo08451 freenode-4ln.as1.b17r3t.IP *.freenode.net saxo08451 H :0 saxo
-//--> silent event who
-//>> :*.freenode.net 352 tle #test sid412351 freenode-gvelau.1gcv.uge0.8cnpra.IP *.freenode.net sc0tt2 Hs :0 Scott
-//--> silent event who
-//>> :*.freenode.net 352 tle #test ~bogon freenode-v17.qml.di46ae.IP *.freenode.net bogon Hs :0 ZNC - https://znc.in
-//--> silent event who
-//>> :*.freenode.net 352 tle #test darkphnx freenode-jo8546.7t3s.ckrk.8fsqam.IP *.freenode.net darkphoenix Hs :0 Jonas B
-//--> silent event who
-//>> :*.freenode.net 352 tle #test ~tle freenode-a99.759.j1faas.IP *.freenode.net tle Hs :0 Truyen danh Le
-//--> silent event who
-//>> :*.freenode.net 352 tle #test ~Ali3000 freenode-628.ult.j44gio.IP *.freenode.net Ali3000623883101 Hs :0 The Lounge User
-//--> silent event who
-//>> :*.freenode.net 315 tle #test :End of /WHO list.
-//--> chanquery who end
-//<< MODE #test b
-//>> :*.freenode.net 368 tle #test :End of channel ban list
-//--> chanquery ban end
-
 void	join_command(std::vector<std::string> cmd, int clientFd, Server *server)
 {
-		
+	if (cmd.size() == 1)
+	{
+		send_error("461", server->client[clientFd]->getNickname(), "Not enough parameters", clientFd);
+		return;
+	}
+	std::vector<std::string>	channels = ft_split(cmd[1], ",");
+	std::cout << server->client[clientFd]->getChannelNb() + channels.size() << std::endl;
+	if (cmd.size() > 11 || server->client[clientFd]->getChannelNb() + channels.size() > 10)
+	{
+		send_error("405", server->client[clientFd]->getNickname(), "You have joined too many channels", clientFd);
+		return;
+	}
+	for (std::vector<std::string>::iterator it = channels.begin(); it != channels.end(); it++)
+	{	
+		if ((*it)[0] != '#')
+		{
+			std::string	msg = ":PokeIRC 403 " + server->client[clientFd]->getNickname() + " " + *it + " :No such channel\r\n";
+			send(clientFd, msg.c_str(), msg.length(), 0);
+			return;
+		}
+		if (server->channelList.find(*it) == server->channelList.end())
+		{
+			Channel *newChannel = new Channel();
+			server->client[clientFd]->setChannelNb(1);
+			newChannel->clients.push_back(clientFd);
+			server->channelList.insert(std::pair<std::string, Channel *>(*it, newChannel));
+		}
+		else
+		{
+			if (std::find(server->channelList[*it]->clients.begin(), server->channelList[*it]->clients.end(), clientFd) == server->channelList[*it]->clients.end())
+			{
+				server->client[clientFd]->setChannelNb(1);
+				server->channelList[*it]->clients.push_back(clientFd);
+				for (std::vector<int>::iterator itt = server->channelList[*it]->clients.begin(); itt != server->channelList[*it]->clients.end(); itt++)
+					std::cout << "ID: " << *itt << std::endl;
+			}
+		}
+	}
 }

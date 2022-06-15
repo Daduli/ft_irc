@@ -7,12 +7,13 @@ SRCS =	srcs/main.cpp \
 		srcs/cmds/user_command.cpp \
 		srcs/cmds/nick_command.cpp \
 		srcs/cmds/ping_command.cpp \
+		srcs/cmds/join_command.cpp \
 		srcs/cmds/send_error.cpp \
 		srcs/classes/Server.cpp \
 		srcs/classes/Client.cpp \
 		srcs/classes/Parser.cpp
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
 OBJS = $(SRCS:.cpp=.o)
 
 $(NAME): $(OBJS)
