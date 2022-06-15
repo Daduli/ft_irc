@@ -17,15 +17,12 @@ bool mode_parser(std::vector<std::string> cmd, Client *client_target, int client
 
     std::string mode = client_target->getMode();
     bool clear = false;
-    std::string options = "+-aiwro";
+    std::string options = "+-iwos";
 
     for (size_t i = 0; i != cmd.size() - 1; ++i)
     {
-        if (cmd[2][i] == '-')
-		{
-                printf("suppression");       
+        if (cmd[2][i] == '-')      
                 clear = true;
-        }
 		else if (cmd[2][i] == '+')
 				clear = false;
         if (options.find(cmd[2][i]) == std::string::npos)
@@ -37,7 +34,6 @@ bool mode_parser(std::vector<std::string> cmd, Client *client_target, int client
         {
             if (clear == true && (&mode)->find(cmd[2][i]) != std::string::npos)
 		    {
-                printf("suppression");
                 if (cmd[2][i] != '+' && cmd[2][i] != '-')
                 {
                     (&mode)->erase((&mode)->find(cmd[2][i]), 1);
@@ -46,7 +42,7 @@ bool mode_parser(std::vector<std::string> cmd, Client *client_target, int client
             }
             else if (clear == false && (&mode)->find(cmd[2][i]) == std::string::npos)
             {
-                if (cmd[2][i] != '+' && cmd[2][i] != '-')
+                if (cmd[2][i] != '+' && cmd[2][i] != '-' && cmd[2][i] != 'o')
                 {
                     (&mode)->push_back(cmd[2][i]);
                     server->client[clientFd]->setMode(mode);
@@ -92,9 +88,6 @@ void 	mode_command(std::vector<std::string> cmd, int clientFd, Server *server) {
 	    send_error_1("461", server->client[clientFd]->getNickname(), "Not enough parameters", clientFd, cmd[0]);
         return;
     }
-    // //if (command->cmd->getArgs()[0].find("#") != std::string::npos)
-    // //else
 	if (!ModeForUser(cmd, clientFd, server))
       return;
-
 }
