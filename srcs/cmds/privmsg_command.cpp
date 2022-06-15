@@ -41,8 +41,13 @@ void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		}
 		Channel	*chan = server->channelList[cmd[1]];
 		std::string	msg = cmd[2] + "\r\n";
+		std::string	toSend;
 		for (std::vector<int>::iterator it = chan->clients.begin(); it != chan->clients.end(); it++)
-			send(*it, msg.c_str(), msg.length(), 0);
+		{	
+			toSend = ":" + server->client[clientFd]->getUsername() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";
+			if (*it != clientFd)
+				send(*it, toSend.c_str(), toSend.length(), 0);
+		}
 	}
 	else
 	{

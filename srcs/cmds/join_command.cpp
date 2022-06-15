@@ -32,8 +32,15 @@ void	join_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		{
 			if (std::find(server->channelList[*it]->clients.begin(), server->channelList[*it]->clients.end(), clientFd) == server->channelList[*it]->clients.end())
 			{
+				std::string	toSend;
 				server->client[clientFd]->setChannelNb(1);
 				server->channelList[*it]->clients.push_back(clientFd);
+				for (std::vector<int>::iterator itt = server->channelList[*it]->clients.begin(); itt != server->channelList[*it]->clients.end(); itt++)
+				{
+					toSend = ":" + server->client[clientFd]->getUsername() + " JOIN " + *it + "\r\n";
+					if (*itt != clientFd)
+						send(*itt, toSend.c_str(), toSend.length(), 0);
+				}
 			}
 		}
 	}
