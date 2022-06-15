@@ -8,7 +8,6 @@ void	join_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		return;
 	}
 	std::vector<std::string>	channels = ft_split(cmd[1], ",");
-	std::cout << server->client[clientFd]->getChannelNb() + channels.size() << std::endl;
 	if (cmd.size() > 11 || server->client[clientFd]->getChannelNb() + channels.size() > 10)
 	{
 		send_error("405", server->client[clientFd]->getNickname(), "You have joined too many channels", clientFd);

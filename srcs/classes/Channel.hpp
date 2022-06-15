@@ -16,7 +16,6 @@ class Channel
 	public:
 
 	std::vector<int> clients;
-	
 
 	private:
 

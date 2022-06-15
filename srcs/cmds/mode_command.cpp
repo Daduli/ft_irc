@@ -1,6 +1,6 @@
 #include "../../ft_irc.hpp"
 
-Client					*getClientByname(Server *server, std::string name)
+Client	*getClientByname(Server *server, std::string name)
 {
 	std::map<int, Client*>::iterator it = server->client.begin();
 	std::map<int, Client*>::iterator ite = server->client.end();

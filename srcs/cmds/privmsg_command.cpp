@@ -1,5 +1,18 @@
 #include "../../ft_irc.hpp"
 
+Client	*getClientByName(Server *server, std::string name)
+{
+	std::map<int, Client*>::iterator it = server->client.begin();
+	std::map<int, Client*>::iterator ite = server->client.end();
+
+	for (; it != ite; it++)
+	{
+		if ((*it).second->getNickname() == name)
+			return (*it).second;
+	}
+	return (nullptr);
+}
+
 void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 {
 	if (cmd.size() == 1)
@@ -15,29 +28,32 @@ void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 	std::vector<std::string>	checker = ft_split(cmd[1], ",");
 	if (checker.size() != 1)
 	{
-		// implementer la fonction send_error1 de samir une fois merge  
 		send_error("407", server->client[clientFd]->getNickname(), "Duplicate recipients. No message delivered", clientFd);
 		return;
 	}
-	
 	if (cmd[1].front() == '#')
 	{
-		std::cout << "Channel\n";
-		;
+		if (server->channelList.find(cmd[1]) == server->channelList.end())
+		{
+			std::string	msg = ":PokeIRC 401 " + server->client[clientFd]->getNickname() + " " + cmd[1] + " :No such nick/channel\r\n";
+			send(clientFd, msg.c_str(), msg.length(), 0);
+			return;
+		}
+		Channel	*chan = server->channelList[cmd[1]];
+		std::string	msg = cmd[2] + "\r\n";
+		for (std::vector<int>::iterator it = chan->clients.begin(); it != chan->clients.end(); it++)
+			send(*it, msg.c_str(), msg.length(), 0);
 	}
 	else
 	{
-		//if (server->client.find(server->client) == server->client.end())
-		//{
-		//	std::cout<<"hello"<<std::endl;
-		//	std::string	msg = ":PokeIRC 401 " + server->client[clientFd]->getNickname() + " " + cmd[1] + " :No such nick/channel\r\n";
-		//	send(clientFd, msg.c_str(), msg.length(), 0);
-		//	return;
-		//}
+		Client	*receiver = getClientByName(server, cmd[1]);
+		if (!receiver)
+		{
+			std::string	msg = ":PokeIRC 401 " + server->client[clientFd]->getNickname() + " " + cmd[1] + " :No such nick/channel\r\n";
+			send(clientFd, msg.c_str(), msg.length(), 0);
+			return;
+		}
+		std::string	msg = cmd[2] + "\r\n";
+		send(receiver->getFd(), msg.c_str(), msg.length(), 0);
 	}
-
-	// reste a envoyer le msg et checker si c'est un channel ou un utilisateur pour l'erreur ERR_NOSUCHNICK.
-
-	// std::string = 
-	// send(clientFd, )
 }
