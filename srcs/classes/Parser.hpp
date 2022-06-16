@@ -63,6 +63,7 @@ void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server);
 void 	quit_command(std::vector<std::string> cmd, int clientFd, Server *server);
 void	join_command(std::vector<std::string> cmd, int clientFd, Server *server);
 void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server);
+void	notice_command(std::vector<std::string> cmd, int clientFd, Server *server);
 void	part_command(std::vector<std::string> cmd, int clientFd, Server *server);
 void	topic_command(std::vector<std::string> cmd, int clientFd, Server *server);
 
