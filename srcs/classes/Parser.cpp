@@ -95,8 +95,8 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		mode_command(cmd, clientFd, server);
 	else if (_command == "PRIVMSG")
 		privmsg_command(cmd, clientFd, server);
-	//else if (_command == "NOTICE")
-	//	notice_command(cmd, clientFd, server);
+	else if (_command == "NOTICE")
+		notice_command(cmd, clientFd, server);
 	//else
 	//	send_error("421", server->client[clientFd]->getNickname(), "Unknown command.", clientFd);
 }
