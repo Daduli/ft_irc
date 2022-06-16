@@ -83,19 +83,19 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		ping_command(cmd, clientFd, server);
 	else if (_command == "OPER")
 		oper_command(cmd, clientFd, server);
-	else if (_command == "JOIN")
+	else if (_command == "JOIN") //set mode +t for channel creation
 		join_command(cmd, clientFd, server);
 	else if (_command == "PART")
 		part_command(cmd, clientFd, server);
-	else if (_command == "KILL")
+	else if (_command == "KILL") //fix to work with irssi
 		kill_command(cmd, clientFd, server);
 	else if (_command == "QUIT")
 		quit_command(cmd, clientFd, server);
-	else if (_command == "MODE")
+	else if (_command == "MODE") //add user mode b for ban command
 		mode_command(cmd, clientFd, server);
 	else if (_command == "PRIVMSG")
 		privmsg_command(cmd, clientFd, server);
-	else if (_command == "TOPIC")
+	else if (_command == "TOPIC") //fix to work with irssi
 		topic_command(cmd, clientFd, server);
 	else if (_command == "NOTICE")
 		notice_command(cmd, clientFd, server);
