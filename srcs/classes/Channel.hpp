@@ -15,8 +15,9 @@ class Channel
 {
 	public:
 
-	std::vector<int> clients;
-	std::string	topic;
+		Channel(void);
+		std::vector<int> clients;
+		std::string	topic;
 };
 
 #endif

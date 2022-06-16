@@ -18,12 +18,15 @@ void	topic_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		send_error_1("442", server->client[clientFd]->getNickname(), "You're not on that channel", clientFd, cmd[1]);
 		return;
 	}
-	if (cmd[].size() == 0)
-	{
-
+	if (cmd.size() == 2)
+	{	
+		std::string	msg = chan->topic + "\r\n";
+		send(clientFd, msg.c_str(), msg.length(), 0);
 	}
 	else
 	{
-		//format: :tle!~tle@freenode-a99.759.j1faas.IP TOPIC #bfiursg :hello	
+		std::string msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + " @127.0.0.1 TOPIC " + cmd[1] + " "+ cmd[2] + "\r\n";
+		send(clientFd, msg.c_str(), msg.length(), 0);
+		chan->topic = cmd[2];
 	}
 }

@@ -20,6 +20,7 @@ SRCS =	srcs/main.cpp \
 		srcs/classes/Server.cpp \
 		srcs/classes/Client.cpp \
 		srcs/classes/Parser.cpp \
+		srcs/classes/Channel.cpp
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
 OBJS = $(SRCS:.cpp=.o)
