@@ -29,6 +29,11 @@ void	join_command(std::vector<std::string> cmd, int clientFd, Server *server)
 			newChannel->clients.push_back(clientFd);
 			toSend = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "@127.0.0.1 JOIN :" + *it + "\r\n";
 			send(clientFd, toSend.c_str(), toSend.length(), 0);
+			toSend = ":PokeIRC 353 " + server->client[clientFd]->getUsername() + " = " + *it + " :@" + server->client[clientFd]->getNickname() + "\r\n";
+			send(clientFd, toSend.c_str(), toSend.length(), 0);
+			toSend = ":PokeIRC 366 " + server->client[clientFd]->getUsername() + " " + *it + " :End of /NAMES list\r\n";
+			send(clientFd, toSend.c_str(), toSend.length(), 0);
+			toSend = ":PokeIRC 332 " + server->client[clientFd]->getUsername() + " " + *it + " :No topic set\r\n";
 			server->channelList.insert(std::pair<std::string, Channel *>(*it, newChannel));
 		}
 		else

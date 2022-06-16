@@ -16,10 +16,7 @@ class Channel
 	public:
 
 	std::vector<int> clients;
-
-	private:
-
-
+	std::string	topic;
 };
 
 #endif
