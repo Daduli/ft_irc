@@ -13,6 +13,7 @@ SRCS =	srcs/main.cpp \
 		srcs/cmds/quit_command.cpp \
 		srcs/cmds/join_command.cpp \
 		srcs/cmds/privmsg_command.cpp \
+		srcs/cmds/part_command.cpp \
 		srcs/cmds/send_error.cpp \
 		srcs/classes/Server.cpp \
 		srcs/classes/Client.cpp \

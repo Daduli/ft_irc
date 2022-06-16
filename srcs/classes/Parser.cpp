@@ -85,8 +85,8 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		oper_command(cmd, clientFd, server);
 	else if (_command == "JOIN")
 		join_command(cmd, clientFd, server);
-	//else if (_command == "PART")
-	//	part_command(cmd, client);
+	else if (_command == "PART")
+		part_command(cmd, clientFd, server);
 	else if (_command == "KILL")
 		kill_command(cmd, clientFd, server);
 	else if (_command == "QUIT")
@@ -94,7 +94,9 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 	else if (_command == "MODE")
 		mode_command(cmd, clientFd, server);
 	else if (_command == "PRIVMSG")
-		privmsg_command(cmd, clientFd, server); 
+		privmsg_command(cmd, clientFd, server);
+	//else if (_command == "NOTICE")
+	//	notice_command(cmd, clientFd, server);
 	//else
 	//	send_error("421", server->client[clientFd]->getNickname(), "Unknown command.", clientFd);
 }

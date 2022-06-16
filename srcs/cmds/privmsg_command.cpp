@@ -40,7 +40,11 @@ void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 			return;
 		}
 		Channel	*chan = server->channelList[cmd[1]];
-		std::string	msg = cmd[2] + "\r\n";
+		if (std::find(chan->clients.begin(), chan->clients.end(), clientFd) == chan->clients.end())
+		{
+			send_error_1("404", server->client[clientFd]->getNickname(), "Cannot send to channel", clientFd, cmd[1]);
+			return;
+		}
 		std::string	toSend;
 		for (std::vector<int>::iterator it = chan->clients.begin(); it != chan->clients.end(); it++)
 		{	
@@ -58,7 +62,7 @@ void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 			send(clientFd, msg.c_str(), msg.length(), 0);
 			return;
 		}
-		std::string	msg = cmd[2] + "\r\n";
+		std::string	msg = ":" + server->client[clientFd]->getUsername() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";;
 		send(receiver->getFd(), msg.c_str(), msg.length(), 0);
 	}
 }
