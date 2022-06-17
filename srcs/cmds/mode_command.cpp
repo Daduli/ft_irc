@@ -1,18 +1,5 @@
 #include "../../ft_irc.hpp"
 
-Client	*getClientByname(Server *server, std::string name)
-{
-	std::map<int, Client*>::iterator it = server->client.begin();
-	std::map<int, Client*>::iterator ite = server->client.end();
-
-	for (; it != ite; it++)
-	{
-		if ((*it).second->getNickname() == name)
-			return (*it).second;
-	}
-	return (nullptr);
-}
-
 bool mode_parser(std::vector<std::string> cmd, Client *client_target, int clientFd, Server *server) {
 
     std::string mode = client_target->getMode();
@@ -50,7 +37,7 @@ bool mode_parser(std::vector<std::string> cmd, Client *client_target, int client
             }
         }
     }
-    sendMode("221", server->client[clientFd]->getNickname(), clientFd, server->client[clientFd]->getMode());
+    sendMode("221", server->client[clientFd]->getNickname(), client_target->getFd(), server->client[clientFd]->getMode());
     return true;
 }
 
@@ -68,7 +55,7 @@ bool ModeForUser(std::vector<std::string> cmd, int clientFd, Server *server) {
             send_error("502", server->client[clientFd]->getNickname(), "Cant change mode for other users", clientFd);
             return false;
         }
-        client_target = getClientByname(server, cmd[1]);
+        client_target = server->getClientBynick(cmd[1]);
 		if (!client_target)
 		{
             send_error_with_arg("401", server->client[clientFd]->getNickname(), cmd[1], "No such nick/channel", clientFd);

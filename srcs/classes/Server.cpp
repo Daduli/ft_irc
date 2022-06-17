@@ -44,6 +44,20 @@ void	Server::getConfig(std::string param)
 	_operatorPwd = temp.substr(pos + 2, temp.length());
 }
 
+Client *Server::getClientBynick(std::string name) {
+
+	std::map<int, Client*>::iterator it = client.begin();
+	std::map<int, Client*>::iterator ite = client.end();
+
+	for (; it != ite; it++)
+	{
+		if ((*it).second->getNickname() == name)
+			return (*it).second;
+	}
+	return (nullptr);
+}
+
+
 void	Server::deleteClient(void)
 {
 	std::vector<int>::iterator	it = clientFds.begin();

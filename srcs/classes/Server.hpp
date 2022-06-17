@@ -38,9 +38,10 @@ class Server
 		void				getConfig(std::string param);
 		std::string	const	&getOperatorPass() const;
 
+		void	receiveMessage(int socketFd, std::string buffer);
+		Client	*getClientBynick(std::string name);
 		void	deleteClient(void);
 		void	serverAccept(void);
-		void	receiveMessage(int socketFd, std::string buffer);
 		void	clientDisconnect(int socketFd);
 
 		int	socketFd;
