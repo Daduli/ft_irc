@@ -55,17 +55,17 @@ void	nick_command(std::vector<std::string> cmd, int clientFd, Server *server)
 	if (server->client[clientFd]->_isConnected)
 	{
 		if (cmd.size() == 1)
-		{	
+		{
 			msg = "Nickname: " + server->client[clientFd]->getNickname() + "\r\n";
 			send(clientFd, msg.c_str(), msg.length(), 0);
 		}
 		else
-			{
-				msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "127.0.0.1 NICK :" + cmd[1] + "\r\n";
-				std::cout << msg ;
-				send(clientFd, msg.c_str(), msg.length(), 0);
-				server->client[clientFd]->setNickname(cmd[1]);
-			}
+		{
+			msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "127.0.0.1 NICK :" + cmd[1] + "\r\n";
+			std::cout << msg ;
+			send(clientFd, msg.c_str(), msg.length(), 0);
+			server->client[clientFd]->setNickname(cmd[1]);
+		}
 	}
 	else
 	{

@@ -16,6 +16,8 @@ class Channel
 	public:
 
 		Channel(void);
+		~Channel(void);
+		
 		std::vector<int> clients;
 		std::string	topic;
 };
