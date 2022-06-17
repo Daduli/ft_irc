@@ -1,7 +1,6 @@
 #include "Server.hpp"
 #include "Client.hpp"
 #include "Parser.hpp"
-#include <iostream>
 
 Server::Server(void)
 {
@@ -23,9 +22,11 @@ std::string const &Server::getPassword(void) const
 	return (_password);
 }
 
-std::string const &Server::getOperatorPass() const {return _operatorPwd;}
+std::string const &Server::getOperatorPass() const
+{
+	return (_operatorPwd);
+}
 
-// lire le ircserv.config && recuperer ligne par ligne et stocker 'op_pass'(stocker dans une string)
 void	Server::getConfig(std::string param) 
 {
 	std::ifstream ifs(param);
@@ -41,7 +42,6 @@ void	Server::getConfig(std::string param)
 	}
 	pos = temp.find("=");
 	_operatorPwd = temp.substr(pos + 2, temp.length());
-
 }
 
 Client *Server::getClientBynick(std::string name) {
@@ -102,16 +102,11 @@ void	Server::receiveMessage(int clientFd, std::string buffer)
 	{
 		client[clientFd]->setMessage(buffer);
 		array.push_back(client[clientFd]->getMessage());
-		//array = ft_split(client[clientFd]->getMessage(), "\n");
-		//split on \r\n then \n
-		//a message can have multiple commands separated with '\r\n'
 	}
 	else
 	{
 		client[clientFd]->setMessage(buffer);
 		array = ft_split(client[clientFd]->getMessage(), "\r\n");
-
-		//split on \n then space
 	}
 	if (client[clientFd]->getMessage().find('\n') != std::string::npos)
 	{
@@ -119,14 +114,15 @@ void	Server::receiveMessage(int clientFd, std::string buffer)
 			_parse.parseCommand(*it, clientFd, this);
 		client[clientFd]->getMessage().clear();
 	}
-	//transform msg into cmd
-	//parse cmd only
 }
 
 void	Server::clientDisconnect(int socketFd)
 {
 	clientFds.push_back(socketFd);
-	std::cout << "Client " + client[socketFd]->getNickname() + " is disconnected" << std::endl;
+	if (client[socketFd]->getUsername().empty())
+		std::cout << "Client disconnected" << std::endl;
+	else
+		std::cout << client[socketFd]->getUsername() + " disconnected" << std::endl;
 	std::vector<int>::iterator	client;
 	for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); it++)
 	{

@@ -32,6 +32,5 @@ void	run_server(Server *serv)
 					serv->clientDisconnect(clientFd);
 			}
 		}
-		//add select and actions to do with clients
 	}
 }
