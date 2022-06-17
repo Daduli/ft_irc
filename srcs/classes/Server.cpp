@@ -5,7 +5,6 @@
 
 Server::Server(void)
 {
-	_admin = "admin";
 	return;
 }
 
@@ -22,11 +21,6 @@ void	Server::setPassword(std::string password)
 std::string const &Server::getPassword(void) const
 {
 	return (_password);
-}
-
-std::string const &Server::getAdmin(void) const
-{
-	return (_admin);
 }
 
 std::string const &Server::getOperatorPass() const {return _operatorPwd;}
