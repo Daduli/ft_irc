@@ -8,7 +8,7 @@ void	send_error(std::string code, std::string nickname, std::string toSend, int 
 	send(clientFd, message.c_str(), message.length(), 0);
 }
 
-void	send_error_1(std::string code, std::string nickname, std::string toSend, int clientFd, std::string arg)
+void	send_error_with_arg(std::string code, std::string nickname, std::string arg, std::string toSend, int clientFd)
 {
 	std::string	message;
 

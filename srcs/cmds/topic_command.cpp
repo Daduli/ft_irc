@@ -9,13 +9,13 @@ void	topic_command(std::vector<std::string> cmd, int clientFd, Server *server)
 	}
 	if (server->channelList.find(cmd[1]) == server->channelList.end())
 	{
-		send_error_1("442", server->client[clientFd]->getNickname(), "You're not on that channel", clientFd, cmd[1]);
+		send_error_with_arg("442", server->client[clientFd]->getNickname(), cmd[1], "You're not on that channel", clientFd);
 		return;
 	}
 	Channel	*chan = server->channelList[cmd[1]];
 	if (std::find(chan->clients.begin(), chan->clients.end(), clientFd) == chan->clients.end())
 	{
-		send_error_1("442", server->client[clientFd]->getNickname(), "You're not on that channel", clientFd, cmd[1]);
+		send_error_with_arg("442", server->client[clientFd]->getNickname(), cmd[1], "You're not on that channel", clientFd);
 		return;
 	}
 	if (cmd.size() == 2)

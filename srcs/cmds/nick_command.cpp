@@ -6,20 +6,20 @@ bool	nickname_parse(std::vector<std::string> cmd, int clientFd, Server *server)
 	{
 		if (!isalpha(cmd[1][0]))
 		{
-			send_error_1("432", server->client[clientFd]->getNickname(), "Erroneous Nickname", clientFd, cmd[1]);
+			send_error_with_arg("432", server->client[clientFd]->getNickname(), cmd[1], "Erroneous Nickname", clientFd);
 			return false;
 		}
 		for (std::string::iterator it=cmd[1].begin(); it!=cmd[1].end(); it++)
 		{
 			if (!isalnum(*it) && *it != '_' && *it != '-')
 			{
-				send_error_1("432", server->client[clientFd]->getNickname(), "Erroneous Nickname", clientFd, cmd[1]);
+				send_error_with_arg("432", server->client[clientFd]->getNickname(), cmd[1], "Erroneous Nickname", clientFd);
 				return false;
 			}
 		}
 		if (cmd[1].length() > 30)
 		{
-			send_error_1("432", server->client[clientFd]->getNickname(), "Erroneous Nickname", clientFd, cmd[1]);
+			send_error_with_arg("432", server->client[clientFd]->getNickname(), cmd[1], "Erroneous Nickname", clientFd);
 			return false;
 		}
 		for (std::vector<std::string>::iterator it = server->nicknameList.begin(); it != server->nicknameList.end(); it++)

@@ -71,7 +71,7 @@ bool ModeForUser(std::vector<std::string> cmd, int clientFd, Server *server) {
         client_target = getClientByname(server, cmd[1]);
 		if (!client_target)
 		{
-            send_error_1("401", server->client[clientFd]->getNickname(), "No such nick/channel", clientFd, cmd[1]);
+            send_error_with_arg("401", server->client[clientFd]->getNickname(), cmd[1], "No such nick/channel", clientFd);
             return false;
         }
     }
@@ -100,7 +100,7 @@ void 	mode_command(std::vector<std::string> cmd, int clientFd, Server *server) {
     {
         if (cmd.size() != 3)
         {
-	        send_error_1("461", server->client[clientFd]->getNickname(), "Not enough parameters", clientFd, cmd[0]);
+	        send_error_with_arg("461", server->client[clientFd]->getNickname(), cmd[0], "Not enough parameters", clientFd);
             return;
         }         
         if (!ModeForUser(cmd, clientFd, server))

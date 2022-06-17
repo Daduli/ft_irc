@@ -12,14 +12,14 @@ void	part_command(std::vector<std::string> cmd, int clientFd, Server *server)
 	{	
 		if (server->channelList.find(*it) == server->channelList.end())
 		{
-			send_error_1("403", server->client[clientFd]->getNickname(), "No such channel", clientFd, *it);
+			send_error_with_arg("403", server->client[clientFd]->getNickname(), *it, "No such channel", clientFd);
 			return;
 		}
 		std::vector<int>::iterator	toDelete;
 		Channel	*chan = server->channelList[*it];
 		if ((toDelete = std::find(chan->clients.begin(), chan->clients.end(), clientFd)) == chan->clients.end())
 		{
-			send_error_1("442", server->client[clientFd]->getNickname(), "You're not on that channel",clientFd, *it);
+			send_error_with_arg("442", server->client[clientFd]->getNickname(), *it, "You're not on that channel", clientFd);
 			return;
 		}
 		std::string	msg;

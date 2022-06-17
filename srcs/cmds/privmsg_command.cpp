@@ -42,7 +42,7 @@ void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		Channel	*chan = server->channelList[cmd[1]];
 		if (std::find(chan->clients.begin(), chan->clients.end(), clientFd) == chan->clients.end())
 		{
-			send_error_1("404", server->client[clientFd]->getNickname(), "Cannot send to channel", clientFd, cmd[1]);
+			send_error_with_arg("404", server->client[clientFd]->getNickname(), cmd[1], "Cannot send to channel", clientFd);
 			return;
 		}
 		std::string	toSend;

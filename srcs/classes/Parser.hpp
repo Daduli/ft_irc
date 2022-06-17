@@ -56,7 +56,7 @@ void	topic_command(std::vector<std::string> cmd, int clientFd, Server *server);
 std::vector<std::string>	ft_split (std::string str, std::string delimiter);
 void	ft_error(std::string s);
 void	send_error(std::string code, std::string nickname, std::string toSend, int clientFd);
-void	send_error_1(std::string code, std::string nickname, std::string toSend, int clientFd, std::string arg);
+void	send_error_with_arg(std::string code, std::string nickname, std::string arg, std::string toSend, int clientFd);
 void	sendMode(std::string code, std::string nickname, int clientFd, std::string arg);
 void	send_msg(int clientFd, std::string msg);
 

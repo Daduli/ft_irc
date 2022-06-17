@@ -15,25 +15,25 @@ Client  *getClientBynick(Server *server, std::string name)
 
 void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server) {
 
-    Client *client_target = NULL;
-    
-    if (cmd.size() != 3)
+	Client *client_target = NULL;
+
+	if (cmd.size() != 3)
 	{
-        send_error_1("461", server->client[clientFd]->getNickname(), "Not enough parameters", clientFd, cmd[0]);
-        return;
-    }	
-    if (server->client[clientFd]->getMode().find('o') == std::string::npos)
+		send_error_with_arg("461", server->client[clientFd]->getNickname(), cmd[0], "Not enough parameters", clientFd);
+		return;
+	}
+	if (server->client[clientFd]->getMode().find('o') == std::string::npos)
 	{
-        send_error("481", server->client[clientFd]->getNickname(), "Permission Denied- You're not an IRC operator", clientFd);
-        return;
-    }
-    client_target = getClientBynick(server, cmd[1]);
+		send_error("481", server->client[clientFd]->getNickname(), "Permission Denied- You're not an IRC operator", clientFd);
+		return;
+	}
+	client_target = getClientBynick(server, cmd[1]);
 	if (!client_target)
 	{
-            send_error_1("401", server->client[clientFd]->getNickname(), "No such nick/channel", clientFd, cmd[1]);
-            return;
-    }
-    std::string msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "127.0.0.1 KILL :" + cmd[2] + "\r\n";
-    send(client_target->getFd(), msg.c_str(), msg.length(), 0);
-    server->clientDisconnect(client_target->getFd());
+		send_error_with_arg("401", server->client[clientFd]->getNickname(), cmd[1], "No such nick/channel", clientFd);
+		return;
+	}
+	std::string msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "127.0.0.1 KILL :" + cmd[2] + "\r\n";
+	send(client_target->getFd(), msg.c_str(), msg.length(), 0);
+	server->clientDisconnect(client_target->getFd());
 }
