@@ -81,13 +81,29 @@ bool ModeForUser(std::vector<std::string> cmd, int clientFd, Server *server) {
     return true;
 }
 
-void 	mode_command(std::vector<std::string> cmd, int clientFd, Server *server) {
+bool ModeForChannel(int clientFd, Server *server) {
 
-    if (cmd.size() != 3)
+    std::string mode = "nt";
+
+    sendMode("221", server->client[clientFd]->getNickname(), clientFd, mode);
+    return true;
+}
+
+void 	mode_command(std::vector<std::string> cmd, int clientFd, Server *server) {
+	
+    if(cmd[1].find("#") != std::string::npos)
     {
-	    send_error_1("461", server->client[clientFd]->getNickname(), "Not enough parameters", clientFd, cmd[0]);
-        return;
+        if (!ModeForChannel(clientFd, server))
+            return;
+    }   
+    else
+    {
+        if (cmd.size() != 3)
+        {
+	        send_error_1("461", server->client[clientFd]->getNickname(), "Not enough parameters", clientFd, cmd[0]);
+            return;
+        }         
+        if (!ModeForUser(cmd, clientFd, server))
+            return;
     }
-	if (!ModeForUser(cmd, clientFd, server))
-      return;
 }
