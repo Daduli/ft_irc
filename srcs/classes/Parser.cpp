@@ -1,6 +1,5 @@
 #include "Parser.hpp"
 #include "Server.hpp"
-#include <iostream>
 
 Parser::Parser(void)
 {
@@ -12,14 +11,6 @@ Parser::~Parser(void)
 	return;
 }
 
-//The parse may be working for both netcat and irssi
-//Split the command on spaces
-//0.Check prefix before command
-//if prefix, check nickname is same as client
-//else do nothing
-//1. Get the command and check what command it is
-//2. Check its parameters
-//and check if the last parameters has ':'
 void	Parser::parseCommand(std::string message, int clientFd, Server *server)
 {
 	std::vector<std::string>	cmdArray;
@@ -82,7 +73,7 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		ping_command(cmd, clientFd, server);
 	else if (_command == "OPER")
 		oper_command(cmd, clientFd, server);
-	else if (_command == "JOIN") //add send msg when channel exist
+	else if (_command == "JOIN")
 		join_command(cmd, clientFd, server);
 	else if (_command == "PART")
 		part_command(cmd, clientFd, server);
