@@ -87,7 +87,7 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		join_command(cmd, clientFd, server);
 	else if (_command == "PART")
 		part_command(cmd, clientFd, server);
-	else if (_command == "KILL") //fix to work with irssi
+	else if (_command == "KILL" || _command == "kill") 
 		kill_command(cmd, clientFd, server);
 	else if (_command == "QUIT")
 		quit_command(cmd, clientFd, server);
