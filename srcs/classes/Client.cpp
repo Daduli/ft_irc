@@ -5,6 +5,7 @@ Client::Client(void)
 	_isConnected = false;
 	_passwordOk = false;
 	_channelNb = 0;
+	_nickname = "";
 	return;
 }
 

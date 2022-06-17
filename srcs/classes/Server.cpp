@@ -118,5 +118,5 @@ void	Server::receiveMessage(int clientFd, std::string buffer)
 void	Server::clientDisconnect(int socketFd)
 {
 	clientFds.push_back(socketFd);
-	std::cout << "Client disconnected" << std::endl;
+	std::cout << "Client " + client[socketFd]->getNickname() + " is disconnected" << std::endl;
 }
