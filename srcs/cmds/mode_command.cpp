@@ -1,18 +1,5 @@
 #include "../../ft_irc.hpp"
 
-// Client	*getClientByname(Server *server, std::string name)
-// {
-// 	std::map<int, Client*>::iterator it = server->client.begin();
-// 	std::map<int, Client*>::iterator ite = server->client.end();
-
-// 	for (; it != ite; it++)
-// 	{
-// 		if ((*it).second->getNickname() == name)
-// 			return (*it).second;
-// 	}
-// 	return (nullptr);
-// }
-
 bool mode_parser(std::vector<std::string> cmd, Client *client_target, int clientFd, Server *server) {
 
     std::string mode = client_target->getMode();
