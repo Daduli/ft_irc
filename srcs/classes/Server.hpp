@@ -42,6 +42,7 @@ class Server
 	void	serverAccept(void);
 	void	receiveMessage(int socketFd, std::string buffer);
 	void	clientDisconnect(int socketFd);
+	Client	*getClientBynick(std::string name);
 
 	int	socketFd;
 	std::map<int, Client *>	client;

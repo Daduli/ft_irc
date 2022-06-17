@@ -44,6 +44,20 @@ void	Server::getConfig(std::string param)
 
 }
 
+Client *Server::getClientBynick(std::string name) {
+
+	std::map<int, Client*>::iterator it = client.begin();
+	std::map<int, Client*>::iterator ite = client.end();
+
+	for (; it != ite; it++)
+	{
+		if ((*it).second->getNickname() == name)
+			return (*it).second;
+	}
+	return (nullptr);
+}
+
+
 void	Server::deleteClient(void)
 {
 	std::vector<int>::iterator	it = clientFds.begin();
