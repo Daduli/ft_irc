@@ -15,16 +15,11 @@ Client	*getClientByNam(Server *server, std::string name)
 
 void	notice_command(std::vector<std::string> cmd, int clientFd, Server *server)
 {
-	if (cmd.size() == 1)
+	if (cmd.size() < 3)
 		return;
-
-	if (cmd.size() == 2)
-		return;
-
 	std::vector<std::string>	checker = ft_split(cmd[1], ",");
 	if (checker.size() != 1)
 		return;
-
 	if (cmd[1].front() == '#')
 	{
 		if (server->channelList.find(cmd[1]) == server->channelList.end())
@@ -46,7 +41,6 @@ void	notice_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		Client	*receiver = getClientByNam(server, cmd[1]);
 		if (!receiver)
 			return;
-		
 		std::string	msg = ":" + server->client[clientFd]->getUsername() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";;
 		send(receiver->getFd(), msg.c_str(), msg.length(), 0);
 	}

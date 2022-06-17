@@ -13,8 +13,8 @@ Client  *getClientBynick(Server *server, std::string name)
 	return (nullptr);
 }
 
-void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server) {
-
+void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server)
+{
 	Client *client_target = NULL;
 
 	if (cmd.size() != 3)
@@ -33,7 +33,6 @@ void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server) {
 		send_error_with_arg("401", server->client[clientFd]->getNickname(), cmd[1], "No such nick/channel", clientFd);
 		return;
 	}
-	std::string msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "127.0.0.1 KILL :" + cmd[2] + "\r\n";
-	send(client_target->getFd(), msg.c_str(), msg.length(), 0);
+	send_reply(server->client[clientFd]->getNickname(), server->client[clientFd]->getUsername(), "KILL", cmd[2], client_target->getFd());
 	server->clientDisconnect(client_target->getFd());
 }

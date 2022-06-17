@@ -55,7 +55,7 @@ bool ModeForUser(std::vector<std::string> cmd, int clientFd, Server *server) {
             send_error("502", server->client[clientFd]->getNickname(), "Cant change mode for other users", clientFd);
             return false;
         }
-        client_target = server->getClientBynick(cmd[1]);
+        client_target = server->getClientByNick(cmd[1]);
 		if (!client_target)
 		{
             send_error_with_arg("401", server->client[clientFd]->getNickname(), cmd[1], "No such nick/channel", clientFd);

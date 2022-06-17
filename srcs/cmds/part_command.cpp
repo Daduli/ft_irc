@@ -9,7 +9,7 @@ void	part_command(std::vector<std::string> cmd, int clientFd, Server *server)
 	}
 	std::vector<std::string>	channels = ft_split(cmd[1], ",");
 	for (std::vector<std::string>::iterator it = channels.begin(); it != channels.end(); it++)
-	{	
+	{
 		if (server->channelList.find(*it) == server->channelList.end())
 		{
 			send_error_with_arg("403", server->client[clientFd]->getNickname(), *it, "No such channel", clientFd);
@@ -26,15 +26,9 @@ void	part_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		for (std::vector<int>::iterator client = chan->clients.begin(); client != chan->clients.end(); client++)
 		{
 			if (*client != clientFd)
-			{	
-				msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "@127.0.0.1 PART :" + *it + "\r\n";
-				send(*client, msg.c_str(), msg.length(), 0);
-			}
+				send_reply(server->client[clientFd]->getNickname(), server->client[clientFd]->getUsername(), "PART", *it, *client);
 			else
-			{	
-				msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "@127.0.0.1 PART :" + *it + "\r\n";
-				send(clientFd, msg.c_str(), msg.length(), 0);
-			}		
+				send_reply(server->client[clientFd]->getNickname(), server->client[clientFd]->getUsername(), "PART", *it, clientFd);		
 		}
 		chan->clients.erase(toDelete);
 		if (chan->clients.empty())

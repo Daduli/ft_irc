@@ -1,7 +1,7 @@
 #include "../../ft_irc.hpp"
 
-void 	quit_command(std::vector<std::string> cmd, int clientFd, Server *server) {
-
+void 	quit_command(std::vector<std::string> cmd, int clientFd, Server *server)
+{
     std::string mess;
     
     if (cmd.size() != 1 && cmd.size() != 2)
@@ -13,7 +13,6 @@ void 	quit_command(std::vector<std::string> cmd, int clientFd, Server *server) {
         mess = cmd[1] + "\r\n"; 
     else
         mess = server->client[clientFd]->getNickname();
-        
     send(clientFd, mess.c_str(), mess.length(), 0);
     server->clientDisconnect(clientFd);
 }

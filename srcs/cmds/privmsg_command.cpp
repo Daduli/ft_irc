@@ -58,8 +58,7 @@ void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		Client	*receiver = getClientByName(server, cmd[1]);
 		if (!receiver)
 		{
-			std::string	msg = ":PokeIRC 401 " + server->client[clientFd]->getNickname() + " " + cmd[1] + " :No such nick/channel\r\n";
-			send(clientFd, msg.c_str(), msg.length(), 0);
+			send_error_with_arg("401", server->client[clientFd]->getNickname(), cmd[1], "No such nick/channel", clientFd);
 			return;
 		}
 		std::string	msg = ":" + server->client[clientFd]->getUsername() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";;

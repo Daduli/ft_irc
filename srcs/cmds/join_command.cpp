@@ -18,8 +18,7 @@ void	join_command(std::vector<std::string> cmd, int clientFd, Server *server)
 	{	
 		if ((*it)[0] != '#')
 		{
-			std::string	msg = ":PokeIRC 403 " + server->client[clientFd]->getNickname() + " " + *it + " :No such channel\r\n";
-			send(clientFd, msg.c_str(), msg.length(), 0);
+			send_error_with_arg("403", server->client[clientFd]->getNickname(), *it, "No such channel", clientFd);
 			return;
 		}
 		if (server->channelList.find(*it) == server->channelList.end())
@@ -27,13 +26,11 @@ void	join_command(std::vector<std::string> cmd, int clientFd, Server *server)
 			Channel *newChannel = new Channel();
 			server->client[clientFd]->setChannelNb(1);
 			newChannel->clients.push_back(clientFd);
-			toSend = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "@127.0.0.1 JOIN :" + *it + "\r\n";
-			send(clientFd, toSend.c_str(), toSend.length(), 0);
+			send_reply(server->client[clientFd]->getNickname(), server->client[clientFd]->getUsername(), "JOIN", *it, clientFd);
 			toSend = ":PokeIRC 353 " + server->client[clientFd]->getUsername() + " = " + *it + " :@" + server->client[clientFd]->getNickname() + "\r\n";
 			send(clientFd, toSend.c_str(), toSend.length(), 0);
-			toSend = ":PokeIRC 366 " + server->client[clientFd]->getUsername() + " " + *it + " :End of /NAMES list\r\n";
-			send(clientFd, toSend.c_str(), toSend.length(), 0);
-			toSend = ":PokeIRC 332 " + server->client[clientFd]->getUsername() + " " + *it + " :No topic set\r\n";
+			send_error_with_arg("366", server->client[clientFd]->getNickname(), *it, "End of /NAMES list", clientFd);
+			send_error_with_arg("332", server->client[clientFd]->getNickname(), *it, "No topic set", clientFd);
 			server->channelList.insert(std::pair<std::string, Channel *>(*it, newChannel));
 		}
 		else
@@ -45,21 +42,16 @@ void	join_command(std::vector<std::string> cmd, int clientFd, Server *server)
 				for (std::vector<int>::iterator itt = server->channelList[*it]->clients.begin(); itt != server->channelList[*it]->clients.end(); itt++)
 				{
 					if (*itt != clientFd)
-					{	
-						toSend = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "@127.0.0.1 JOIN :" + *it + "\r\n";
-						send(*itt, toSend.c_str(), toSend.length(), 0);
-					}
+						send_reply(server->client[clientFd]->getNickname(), server->client[clientFd]->getUsername(), "JOIN", *it, *itt);
 					else
 					{
-						toSend = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "@127.0.0.1 JOIN :" + *it + "\r\n";
-						send(clientFd, toSend.c_str(), toSend.length(), 0);
-						toSend = ":PokeIRC 353 " + server->client[clientFd]->getUsername() + " = " + *it + ":";
+						send_reply(server->client[clientFd]->getNickname(), server->client[clientFd]->getUsername(), "JOIN", *it, clientFd);
+						std::string toSend = ":PokeIRC 353 " + server->client[clientFd]->getUsername() + " = " + *it + ":";
 						for (std::vector<int>::iterator name = server->channelList[*it]->clients.begin(); name != server->channelList[*it]->clients.end(); name++)
 							toSend += server->client[(*name)]->getNickname() + " ";
 						toSend += "\r\n";
 						send (clientFd, toSend.c_str(), toSend.length(), 0);
-						toSend = ":PokeIRC 366 " + server->client[clientFd]->getUsername() + " " + *it + " :End of /NAMES list\r\n";
-						send(clientFd, toSend.c_str(), toSend.length(), 0);
+						send_error_with_arg("366", server->client[clientFd]->getNickname(), *it, "End of /NAMES list", clientFd);
 					}
 				}
 			}
