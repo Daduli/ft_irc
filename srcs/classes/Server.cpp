@@ -113,4 +113,28 @@ void	Server::clientDisconnect(int socketFd)
 {
 	clientFds.push_back(socketFd);
 	std::cout << "Client " + client[socketFd]->getNickname() + " is disconnected" << std::endl;
+	std::vector<int>::iterator	client;
+	for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); it++)
+	{
+		std::cout << "Channel name: " << (*it).first << std::endl;
+		if ((client = std::find((*it).second->clients.begin(), (*it).second->clients.end(), socketFd)) != (*it).second->clients.end())
+			(*it).second->clients.erase(client);
+		if ((*it).second->clients.empty())
+			emptyChannels.push_back((*it).first);
+	}
+	deleteChannels();
+}
+
+void	Server::deleteChannels(void)
+{
+	std::vector<std::string>::iterator	it = emptyChannels.begin();
+	std::vector<std::string>::iterator	ite = emptyChannels.end();
+	std::map<std::string, Channel *>::iterator channelIt;
+	for ( ; it != ite; it++)
+	{
+		channelIt = channelList.find(*it);
+		delete channelIt->second;
+		channelList.erase(channelIt->first);
+	}
+	emptyChannels.clear();
 }

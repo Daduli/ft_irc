@@ -72,7 +72,6 @@ void	Parser::parseCommand(std::string message, int clientFd, Server *server)
 
 void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *server)
 {
-	//std::cout << _command << std::endl;
 	if (_command == "PASS")
 		pass_command(cmd, clientFd, server);
 	else if(_command == "NICK")
@@ -83,7 +82,7 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		ping_command(cmd, clientFd, server);
 	else if (_command == "OPER")
 		oper_command(cmd, clientFd, server);
-	else if (_command == "JOIN") //set mode +t for channel creation
+	else if (_command == "JOIN") //add send msg when channel exist
 		join_command(cmd, clientFd, server);
 	else if (_command == "PART")
 		part_command(cmd, clientFd, server);
@@ -91,7 +90,7 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		kill_command(cmd, clientFd, server);
 	else if (_command == "QUIT")
 		quit_command(cmd, clientFd, server);
-	else if (_command == "MODE") //add user mode b for ban command
+	else if (_command == "MODE")
 		mode_command(cmd, clientFd, server);
 	else if (_command == "PRIVMSG")
 		privmsg_command(cmd, clientFd, server);
@@ -99,6 +98,4 @@ void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *serv
 		topic_command(cmd, clientFd, server);
 	else if (_command == "NOTICE")
 		notice_command(cmd, clientFd, server);
-	//else
-	//	send_error("421", server->client[clientFd]->getNickname(), "Unknown command.", clientFd);
 }

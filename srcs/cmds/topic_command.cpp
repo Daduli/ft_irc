@@ -25,7 +25,7 @@ void	topic_command(std::vector<std::string> cmd, int clientFd, Server *server)
 	}
 	else
 	{
-		std::string msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "127.0.0.1 TOPIC " + cmd[1] + " "+ cmd[2] + "\r\n";
+		std::string msg = ":" + server->client[clientFd]->getNickname() + "!" + server->client[clientFd]->getUsername() + "127.0.0.1 TOPIC " + cmd[1] + " " + cmd[2] + "\r\n";
 		send(clientFd, msg.c_str(), msg.length(), 0);
 		chan->topic = cmd[2];
 	}

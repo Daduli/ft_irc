@@ -50,7 +50,10 @@ class Server
 
 	private:
 
+		void	deleteChannels(void);
+
 		std::vector<int>	clientFds;
+		std::vector<std::string>	emptyChannels;
 		Parser	_parse;
 		std::string	_password;
 		std::string	_msgSave;
