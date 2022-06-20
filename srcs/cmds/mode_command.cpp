@@ -24,7 +24,7 @@ bool mode_parser(std::vector<std::string> cmd, Client *client_target, int client
                 if (cmd[2][i] != '+' && cmd[2][i] != '-')
                 {
                     (&mode)->erase((&mode)->find(cmd[2][i]), 1);
-                    server->client[clientFd]->setMode(mode);
+                    client_target->setMode(mode);
                 }
             }
             else if (clear == false && (&mode)->find(cmd[2][i]) == std::string::npos)
@@ -32,12 +32,12 @@ bool mode_parser(std::vector<std::string> cmd, Client *client_target, int client
                 if (cmd[2][i] != '+' && cmd[2][i] != '-' && cmd[2][i] != 'o')
                 {
                     (&mode)->push_back(cmd[2][i]);
-                    server->client[clientFd]->setMode(mode);
+                    client_target->setMode(mode);
                 }
             }
         }
     }
-    sendMode("221", server->client[clientFd]->getNickname(), client_target->getFd(), server->client[clientFd]->getMode());
+    sendMode("221", client_target->getNickname(), client_target->getFd(), client_target->getMode());
     return true;
 }
 
