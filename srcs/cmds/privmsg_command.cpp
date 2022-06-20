@@ -1,18 +1,5 @@
 #include "../../ft_irc.hpp"
 
-Client	*getClientByName(Server *server, std::string name)
-{
-	std::map<int, Client*>::iterator it = server->client.begin();
-	std::map<int, Client*>::iterator ite = server->client.end();
-
-	for (; it != ite; it++)
-	{
-		if ((*it).second->getNickname() == name)
-			return (*it).second;
-	}
-	return (nullptr);
-}
-
 void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 {
 	if (cmd.size() == 1)
@@ -55,7 +42,7 @@ void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 	}
 	else
 	{
-		Client	*receiver = getClientByName(server, cmd[1]);
+		Client	*receiver = server->getClientByNick(cmd[1]);
 		if (!receiver)
 		{
 			send_error_with_arg("401", server->client[clientFd]->getNickname(), cmd[1], "No such nick/channel", clientFd);

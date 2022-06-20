@@ -108,7 +108,7 @@ void	Server::clientDisconnect(int socketFd)
 	if (client[socketFd]->getUsername().empty())
 		std::cout << "Client disconnected" << std::endl;
 	else
-		std::cout << client[socketFd]->getUsername() + " disconnected" << std::endl;
+		std::cout << client[socketFd]->getNickname() + " disconnected" << std::endl;
 	std::vector<int>::iterator	client;
 	for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); it++)
 	{

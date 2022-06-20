@@ -1,18 +1,5 @@
 #include "../../ft_irc.hpp"
 
-Client  *getClientBynick(Server *server, std::string name)
-{
-	std::map<int, Client*>::iterator it = server->client.begin();
-	std::map<int, Client*>::iterator ite = server->client.end();
-
-	for (; it != ite; it++)
-	{
-		if ((*it).second->getNickname() == name)
-			return (*it).second;
-	}
-	return (nullptr);
-}
-
 void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server)
 {
 	Client *client_target = NULL;
@@ -27,7 +14,7 @@ void 	kill_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		send_error("481", server->client[clientFd]->getNickname(), "Permission Denied- You're not an IRC operator", clientFd);
 		return;
 	}
-	client_target = getClientBynick(server, cmd[1]);
+	client_target = server->getClientByNick(cmd[1]);
 	if (!client_target)
 	{
 		send_error_with_arg("401", server->client[clientFd]->getNickname(), cmd[1], "No such nick/channel", clientFd);

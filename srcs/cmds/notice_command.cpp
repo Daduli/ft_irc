@@ -1,18 +1,5 @@
 #include "../../ft_irc.hpp"
 
-Client	*getClientByNam(Server *server, std::string name)
-{
-	std::map<int, Client*>::iterator it = server->client.begin();
-	std::map<int, Client*>::iterator ite = server->client.end();
-
-	for (; it != ite; it++)
-	{
-		if ((*it).second->getNickname() == name)
-			return (*it).second;
-	}
-	return (nullptr);
-}
-
 void	notice_command(std::vector<std::string> cmd, int clientFd, Server *server)
 {
 	if (cmd.size() < 3)
@@ -38,7 +25,7 @@ void	notice_command(std::vector<std::string> cmd, int clientFd, Server *server)
 	}
 	else
 	{
-		Client	*receiver = getClientByNam(server, cmd[1]);
+		Client	*receiver = server->getClientByNick(cmd[1]);
 		if (!receiver)
 			return;
 		std::string	msg = ":" + server->client[clientFd]->getUsername() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";;
