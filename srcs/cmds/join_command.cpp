@@ -46,7 +46,7 @@ void	join_command(std::vector<std::string> cmd, int clientFd, Server *server)
 					else
 					{
 						send_reply(server->client[clientFd]->getNickname(), server->client[clientFd]->getUsername(), "JOIN", *it, clientFd);
-						std::string toSend = ":PokeIRC 353 " + server->client[clientFd]->getUsername() + " = " + *it + ":";
+						std::string toSend = ":PokeIRC 353 " + server->client[clientFd]->getUsername() + " = " + *it + " :";
 						for (std::vector<int>::iterator name = server->channelList[*it]->clients.begin(); name != server->channelList[*it]->clients.end(); name++)
 							toSend += server->client[(*name)]->getNickname() + " ";
 						toSend += "\r\n";
