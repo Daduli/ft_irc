@@ -20,7 +20,7 @@ void	send_reply(std::string nickname, std::string username, std::string command,
 {
 	std::string	message;
 
-	message = ":" +  nickname + "!" + username + "@127.0.0.1 " + command + ":" + arg + "\r\n";
+	message = ":" +  nickname + "!" + username + "@127.0.0.1 " + command + " :" + arg + "\r\n";
 	send(clientFd, message.c_str(), message.length(), 0);
 }
 

@@ -35,7 +35,7 @@ void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		std::string	toSend;
 		for (std::vector<int>::iterator it = chan->clients.begin(); it != chan->clients.end(); it++)
 		{	
-			toSend = ":" + server->client[clientFd]->getUsername() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";
+			toSend = ":" + server->client[clientFd]->getNickname() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";
 			if (*it != clientFd)
 				send(*it, toSend.c_str(), toSend.length(), 0);
 		}
@@ -48,7 +48,7 @@ void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 			send_error_with_arg("401", server->client[clientFd]->getNickname(), cmd[1], "No such nick/channel", clientFd);
 			return;
 		}
-		std::string	msg = ":" + server->client[clientFd]->getUsername() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";;
+		std::string	msg = ":" + server->client[clientFd]->getNickname() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";;
 		send(receiver->getFd(), msg.c_str(), msg.length(), 0);
 	}
 }
