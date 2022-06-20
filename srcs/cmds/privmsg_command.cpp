@@ -18,12 +18,18 @@ void	privmsg_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		send_error("407", server->client[clientFd]->getNickname(), "Duplicate recipients. No message delivered", clientFd);
 		return;
 	}
+	if (cmd[2] == ":/bot")
+	{
+		std::string	msg = "COMMANDS:\n-NICK- Show/Change your nickname\n-OPER- Become operator\n-JOIN- Join a channel\n-PART- Leave a channel\n-KILL- Disconnect someone\n-QUIT- Disconnect from server\n-MODE- Get user mode\n-PRIVMSG- Send a private message\n-NOTICE- Send a notice\n-TOPIC- Set/Change a channel's topic\r\n";
+		send_error("003", server->client[clientFd]->getNickname(), msg, clientFd);
+		return;
+		//send(clientFd, msg.c_str(), msg.length(), 0);
+	}
 	if (cmd[1].front() == '#')
 	{
 		if (server->channelList.find(cmd[1]) == server->channelList.end())
 		{
-			std::string	msg = ":PokeIRC 401 " + server->client[clientFd]->getNickname() + " " + cmd[1] + " :No such nick/channel\r\n";
-			send(clientFd, msg.c_str(), msg.length(), 0);
+			send_error_with_arg("401", server->client[clientFd]->getNickname(), cmd[1], "No such nick/channel", clientFd);
 			return;
 		}
 		Channel	*chan = server->channelList[cmd[1]];

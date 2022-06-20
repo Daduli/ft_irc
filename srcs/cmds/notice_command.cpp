@@ -18,7 +18,7 @@ void	notice_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		std::string	toSend;
 		for (std::vector<int>::iterator it = chan->clients.begin(); it != chan->clients.end(); it++)
 		{	
-			toSend = ":" + server->client[clientFd]->getUsername() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";
+			toSend = ":" + server->client[clientFd]->getUsername() + " NOTICE " + cmd[1] + " " + cmd[2] + "\r\n";
 			if (*it != clientFd)
 				send(*it, toSend.c_str(), toSend.length(), 0);
 		}
@@ -28,7 +28,7 @@ void	notice_command(std::vector<std::string> cmd, int clientFd, Server *server)
 		Client	*receiver = server->getClientByNick(cmd[1]);
 		if (!receiver)
 			return;
-		std::string	msg = ":" + server->client[clientFd]->getUsername() + " PRIVMSG " + cmd[1] + " " + cmd[2] + "\r\n";;
+		std::string	msg = ":" + server->client[clientFd]->getUsername() + " NOTICE " + cmd[1] + " " + cmd[2] + "\r\n";;
 		send(receiver->getFd(), msg.c_str(), msg.length(), 0);
 	}
 }
