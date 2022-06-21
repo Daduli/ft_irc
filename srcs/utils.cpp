@@ -6,7 +6,6 @@ void	ft_error(std::string s)
 	exit(1);
 }
 
-// je retourne vector qui contient des strings
 std::vector<std::string>	ft_split (std::string str, std::string delimiter)
 {
 	std::vector<std::string> array;

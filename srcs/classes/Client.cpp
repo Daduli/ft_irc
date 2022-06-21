@@ -5,7 +5,7 @@ Client::Client(void)
 	_isConnected = false;
 	_passwordOk = false;
 	_channelNb = 0;
-	_nickname = "";
+	_nickname = "Guest";
 	return;
 }
 
@@ -16,7 +16,7 @@ Client::~Client(void)
 
 int const &Client::getFd(void) const
 {
-	return _fd;
+	return (_fd);
 }
 		
 void	Client::setFd(int const &fd)
@@ -26,7 +26,7 @@ void	Client::setFd(int const &fd)
 
 std::string &Client::getMessage(void)
 {
-	return this->_message;
+	return (this->_message);
 }
 
 void	Client::setMessage(std::string const &message)
@@ -36,7 +36,7 @@ void	Client::setMessage(std::string const &message)
 
 const std::string &Client::getNickname(void) const
 {
-	return this->_nickname;
+	return (this->_nickname);
 }
 
 void	Client::setNickname(std::string const &nickname)
@@ -46,7 +46,7 @@ void	Client::setNickname(std::string const &nickname)
 
 std::string	const &Client::getUsername(void) const
 {
-	return _username;
+	return (_username);
 }
 
 void	Client::setUsername(std::string const &username)
@@ -54,7 +54,10 @@ void	Client::setUsername(std::string const &username)
 	_username = username;
 }
 
-std::string	const &Client::getMode() const {return _mode;}
+std::string	const &Client::getMode() const
+{
+	return (_mode);
+}
 
 void	Client::setMode(std::string const &mode)
 {
@@ -63,7 +66,7 @@ void	Client::setMode(std::string const &mode)
 
 int	const &Client::getChannelNb(void) const
 {
-	return _channelNb;
+	return (_channelNb);
 }
 
 void	Client::setChannelNb(int const &nb)

@@ -33,11 +33,11 @@ void	Server::getConfig(std::string param)
 	std::string temp;
 	size_t pos;
 
-	if(!ifs.is_open())
+	if (!ifs.is_open())
 		ft_error("Error: cannot open file");
-	while(getline(ifs, temp))
+	while (getline(ifs, temp))
 	{
-		if(temp.compare("op_pass") == 0)
+		if (temp.compare("op_pass") == 0)
 			break;
 	}
 	pos = temp.find("=");
@@ -48,7 +48,7 @@ void	Server::deleteClient(void)
 {
 	std::vector<int>::iterator	it = clientFds.begin();
 	std::vector<int>::iterator	ite = clientFds.end();
-	std::map<int, Client *>::iterator clientIt;
+	std::map<int, Client *>::iterator	clientIt;
 
 	for ( ; it != ite; it++)
 	{
@@ -71,6 +71,7 @@ void	Server::serverAccept(void)
 	fcntl(newSock, F_SETFL, O_NONBLOCK);
 	client.insert(std::pair<int, Client *>(newSock, user));
 	client[newSock]->setFd(newSock);
+	std::cout << "\e[1mA client has logged to the server\e[0m\n";
 }
 
 
@@ -106,13 +107,12 @@ void	Server::clientDisconnect(int socketFd)
 {
 	clientFds.push_back(socketFd);
 	if (client[socketFd]->getUsername().empty())
-		std::cout << "Client disconnected" << std::endl;
+		std::cout << "\e[1mClient has logged out\e[0m" << std::endl;
 	else
-		std::cout << client[socketFd]->getNickname() + " disconnected" << std::endl;
+		std::cout << "\e[1m" << client[socketFd]->getNickname() + " has logged out\e[0m" << std::endl;
 	std::vector<int>::iterator	client;
 	for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); it++)
 	{
-		std::cout << "Channel name: " << (*it).first << std::endl;
 		if ((client = std::find((*it).second->clients.begin(), (*it).second->clients.end(), socketFd)) != (*it).second->clients.end())
 			(*it).second->clients.erase(client);
 		if ((*it).second->clients.empty())
@@ -126,10 +126,10 @@ Client *Server::getClientByNick(std::string name)
 	std::map<int, Client*>::iterator it = client.begin();
 	std::map<int, Client*>::iterator ite = client.end();
 
-	for (; it != ite; it++)
+	for ( ; it != ite; it++)
 	{
 		if ((*it).second->getNickname() == name)
-			return (*it).second;
+			return ((*it).second);
 	}
 	return (nullptr);
 }

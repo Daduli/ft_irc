@@ -63,6 +63,8 @@ void	Parser::parseCommand(std::string message, int clientFd, Server *server)
 
 void	Parser::getCommand(std::vector<std::string> cmd, int clientFd, Server *server)
 {
+	if (!_command.empty())
+		std::cout << "Command receive from " << server->client[clientFd]->getNickname() << ": " << _command << std::endl;
 	if (_command == "PASS")
 		pass_command(cmd, clientFd, server);
 	else if(_command == "NICK")

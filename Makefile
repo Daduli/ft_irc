@@ -22,7 +22,7 @@ SRCS =	srcs/main.cpp \
 		srcs/classes/Parser.cpp \
 		srcs/classes/Channel.cpp
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 OBJS = $(SRCS:.cpp=.o)
 
 $(NAME): $(OBJS)
